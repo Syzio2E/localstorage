@@ -1,44 +1,71 @@
 <html>
     <body>
-   <form onsubmit="storetolocal(event)">
-    <label>Name:</label>
-    <input type="text" name="username">
-    <label>email:</label>
-    <input type="email" name="email">
-    <button>Submit</button>
-   </form>
-   <ul id="listOfitems"></ul>
-   <script>
-    function storetolocal(event){
-        event.preventDefault();
-       const name = event.target.username.value;
-       const email = event.target.email.value;
+        <form onsubmit="storetolocal(event)">
+            <label>Name:</label>
+            <input type="text" name="username">
+            <label>Email:</label>
+            <input type="email" name="email">
+            <button>Submit</button>
+        </form>
+        <ul id="listOfitems"></ul>
+        <script>
+            function storetolocal(event){
+                event.preventDefault();
+                const name = event.target.username.value;
+                const email = event.target.email.value;
 
-       let obj = {
-        name : name,
-        email: email
-       }
-        localStorage.setItem(obj.email,JSON.stringify(obj))
-        showUserOnScreen(obj)
-    }
-    function showUserOnScreen(obj){
-        const parentElem = document.getElementById('listOfitems')
-        const childElem = document.createElement('li')
-        childElem.textContent = obj.name + '-' + obj.email
-        const deleteButton = document.createElement('button')
-                deleteButton.textContent = 'Delete'
-                deleteButton.addEventListener('click', function(){
-                    deleteFromLocal(obj.email);
-                    parentElem.removeChild(childElem);
+                let obj = {
+                    name: name,
+                    email: email
+                }
+                localStorage.setItem(obj.email, JSON.stringify(obj))
+                showUserOnScreen(obj)
+                event.target.reset();
+            }
+
+            function showUserOnScreen(obj){
+                const parentElem = document.getElementById('listOfitems')
+                const childElem = document.createElement('li')
+                childElem.textContent = obj.name + ' - ' + obj.email
+                const editButton = document.createElement('button')
+                editButton.textContent = 'Edit'
+                editButton.addEventListener('click', function(){
+                    editUser(obj.email);
                 });
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.addEventListener('click', function(){
+                    deleteUser(obj.email);
+                });
+                childElem.appendChild(editButton);
                 childElem.appendChild(deleteButton);
                 parentElem.appendChild(childElem)
             }
 
-            function deleteFromLocal(email){
+            function editUser(email){
+                const obj = JSON.parse(localStorage.getItem(email));
+                const newName = prompt('Enter new name', obj.name);
+                const newEmail = prompt('Enter new email', obj.email);
+                const editedObj = {
+                    name: newName,
+                    email: newEmail
+                };
+                localStorage.setItem(newEmail, JSON.stringify(editedObj));
                 localStorage.removeItem(email);
-            
-    }
-   </script>
-   </body>
+                location.reload();
+            }
+
+            function deleteUser(email){
+                localStorage.removeItem(email);
+                location.reload();
+            }
+
+            // Load items from local storage on page load
+            for(let i = 0; i < localStorage.length; i++){
+                const email = localStorage.key(i);
+                const obj = JSON.parse(localStorage.getItem(email));
+                showUserOnScreen(obj);
+            }
+        </script>
+    </body>
 </html>
