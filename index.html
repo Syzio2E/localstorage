@@ -6,7 +6,8 @@
     <label>email:</label>
     <input type="email" name="email">
     <button>Submit</button>
-   </form> 
+   </form>
+   <ul id="listOfitems"></ul>
    <script>
     function storetolocal(event){
         event.preventDefault();
@@ -17,9 +18,26 @@
         name : name,
         email: email
        }
+        localStorage.setItem(obj.email,JSON.stringify(obj))
+        showUserOnScreen(obj)
+    }
+    function showUserOnScreen(obj){
+        const parentElem = document.getElementById('listOfitems')
+        const childElem = document.createElement('li')
+        childElem.textContent = obj.name + '-' + obj.email
+        const deleteButton = document.createElement('button')
+                deleteButton.textContent = 'Delete'
+                deleteButton.addEventListener('click', function(){
+                    deleteFromLocal(obj.email);
+                    parentElem.removeChild(childElem);
+                });
+                childElem.appendChild(deleteButton);
+                parentElem.appendChild(childElem)
+            }
 
-        let myobj_serial = JSON.stringify(obj)
-        localStorage.setItem('obj',myobj_serial)
+            function deleteFromLocal(email){
+                localStorage.removeItem(email);
+            
     }
    </script>
    </body>
