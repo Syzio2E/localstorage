@@ -1,5 +1,13 @@
 // ATTENTION: THIS IS CODE FROM THE YOUTUBE CRASH COURSE. IT IS NOT MEANT TO RUN, IT IS JUST FOR LEARNING PURPOSES //
 
+function saveToLocal(event){
+  event.preventDefault()
+  const name = event.target.name.value;
+  const email = event.target.email.value;
+  localStorage.setItem('name',name)
+  localStorage.setItem('email',email)
+}
+
 // LOGGING OUTPUT
 alert('Hello World'); // Do not use for debugging. Stops script and only strings
 console.log('Hello World');
