@@ -10,13 +10,16 @@
    <script>
     function storetolocal(event){
         event.preventDefault();
-        let myobj = {
-         username: "shubham",
-            emailId: "shubham@gmail.com",
-        }
+       const name = event.target.username.value;
+       const email = event.target.email.value;
 
-        let myobj_serial = JSON.stringify(myobj)
-        localStorage.setItem('myobj',myobj_serial)
+       let obj = {
+        name : name,
+        email: email
+       }
+
+        let myobj_serial = JSON.stringify(obj)
+        localStorage.setItem('obj',myobj_serial)
     }
    </script>
    </body>
