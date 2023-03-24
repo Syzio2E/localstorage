@@ -40,6 +40,27 @@
                 event.target.reset();
             }
 
+            window.addEventListener('DomContentLoaded',()=>{
+                axios.get('https://crudcrud.com/api/b824068a226947ef8a4d79f5fd9a1ad5')
+                .then((response)=>{
+                    for(var i=0;i<response.data.length;i++){
+                       showUserOnScreen(response.data[i]) 
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+                // const localStorageObj = localStorage;
+                // const localStoragekeys = Object.keys(localStorageObj)
+
+                // for(var i=0;i<localStoragekeys.length;i++){
+                //     const key = localStoragekeys[i]
+                //     const userDetailsString = localStorageObj[key];
+                //     const userDetailObj = JSON.parse(userDetailsString);
+                //     showUserOnScreen(userDetailObj)
+                // }
+            })
+
             function showUserOnScreen(obj){
                 const parentElem = document.getElementById('listOfitems')
                 const childElem = document.createElement('li')
